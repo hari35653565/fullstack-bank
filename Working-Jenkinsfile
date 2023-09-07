@@ -49,8 +49,13 @@ pipeline {
         stage('Frontend') {
             steps {
                 dir('/var/lib/jenkins/workspace/Bank/app/frontend'){
-                sh "npm install"
+                  sh "npm install"
                 }
+            }
+        }
+        stage('Deploy to container') {
+            steps {
+                sh "npm run compose:up -d"
             }
         }
     }
