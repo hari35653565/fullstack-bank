@@ -33,7 +33,7 @@ pipeline {
         stage('SONARQUBE ANALYSIS') {
             steps {
                 withSonarQubeEnv('sonar') {
-                    sh "$SCANNER_HOME/bin/sonar-scanner -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=<SONARQUBE-TOKEN> -Dsonar.projectName=Bank -Dsonar.projectKey=Bank"
+                    sh "$SCANNER_HOME/bin/sonar-scanner -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=<SonarQube-Token> -Dsonar.projectName=Bank -Dsonar.projectKey=Bank"
                 }
             }
         }
@@ -56,6 +56,14 @@ pipeline {
             steps {
                 dir('/var/lib/jenkins/workspace/Bank/app/frontend') {
                     sh "npm install"
+                }
+            }
+        }
+
+        stage('Remove Previous Containers') {
+            steps {
+                dir('app') { 
+                    sh "docker-compose down"
                 }
             }
         }
