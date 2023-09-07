@@ -33,7 +33,7 @@ pipeline {
         stage('SONARQUBE ANALYSIS') {
             steps {
                 withSonarQubeEnv('sonar') {
-                    sh "$SCANNER_HOME/bin/sonar-scanner -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_a8dbd9da4fb9ec33dcfdf6e6e8c483771a1eebcf -Dsonar.projectName=Bank -Dsonar.projectKey=Bank"
+                    sh "$SCANNER_HOME/bin/sonar-scanner -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=<SONARQUBE-TOKEN> -Dsonar.projectName=Bank -Dsonar.projectKey=Bank"
                 }
             }
         }
