@@ -163,7 +163,8 @@ Note: to run the integration tests, it is not necessary for the application to b
 
 <br />
 </details>
-(./screenshots/cypress.png)
+
+![Test](./screenshots/cypress.png)
 
 ## :iphone: Screenshots
 
