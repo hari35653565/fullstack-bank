@@ -1,61 +1,70 @@
 pipeline {
     agent any
     
-    tools{
+    tools {
         jdk 'openjdk17'
         nodejs 'node16'
-        
     }
 
-    environment{
-	    SCANNER_HOME=tool 'sonar-scanner'
-	}
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+
     stages {
         stage('Git Checkout') {
             steps {
                 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/hari35653565/fullstack-bank.git'
             }
         }
+
         stage('OWASP FS SCAN') {
             steps {
                 dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'DC'
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
+
         stage('TRIVY FS SCAN') {
             steps {
                 sh "trivy fs ."
             }
         }
+
         stage('SONARQUBE ANALYSIS') {
             steps {
-			    withSonarQubeEnv('sonar'){
-				  sh "$SCANNER_HOME/bin/sonar-scanner -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_a8dbd9da4fb9ec33dcfdf6e6e8c483771a1eebcf -Dsonar.projectName=Bank -Dsonar.projectKey=Bank"
-				  }
+                withSonarQubeEnv('sonar') {
+                    sh "$SCANNER_HOME/bin/sonar-scanner -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=squ_a8dbd9da4fb9ec33dcfdf6e6e8c483771a1eebcf -Dsonar.projectName=Bank -Dsonar.projectKey=Bank"
+                }
             }
         }
+
         stage('Install Dependencies') {
             steps {
                 sh "npm install"
             }
         }
+
         stage('Backend') {
             steps {
                 dir('/var/lib/jenkins/workspace/Bank/app/backend') {
-                  sh "npm install"
+                    sh "npm install"
                 }
             }
         }
+
         stage('Frontend') {
             steps {
-                dir('/var/lib/jenkins/workspace/Bank/app/frontend'){
-                  sh "npm install"
+                dir('/var/lib/jenkins/workspace/Bank/app/frontend') {
+                    sh "npm install"
                 }
             }
         }
+
         stage('Deploy to container') {
             steps {
-                sh "npm run compose:up -d"
+                dir('app') { 
+                    sh "docker-compose up -d"
+                }
             }
         }
     }
