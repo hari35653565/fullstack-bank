@@ -2,7 +2,7 @@
 
 ![Preview](./screenshots/login.png)
 
-## :page_with_curl: About/Sobre
+## :page_with_curl: About
 
 <details>
   <summary markdown="span"><strong>:us: English</strong></summary><br />
@@ -13,14 +13,7 @@ Full stack digital wallet application developed in Next.js and Node.js with Type
 <br />
 </details>
 
-<details>
-  <summary markdown="span"><strong>:brazil: Português</strong></summary><br />
-
-Aplicação full stack dockerizada de carteira digital desenvolvida em Next.js e Node.js com TypeScript.
-<br />
-</details>
-
-## :man_technologist: Developed Skills//Habilidades desenvolvidas
+## :man_technologist: Developed Skills
 
 <details>
   <summary markdown="span"><strong>:us: English</strong></summary><br />
@@ -34,6 +27,7 @@ Aplicação full stack dockerizada de carteira digital desenvolvida em Next.js e
 * Implement backend integration tests using Mocha.js, Chai.js and Sinon.js with 100% coverage
 * implement E2E tests with the Cypress framework in conjunction with the Testing Library
 * Dockerize the application using Docker Compose
+  
 <br />
 </details>
 
@@ -69,7 +63,7 @@ Aplicação full stack dockerizada de carteira digital desenvolvida em Next.js e
 * Docker
 * Docker Compose
 
-## :hammer_and_wrench: Installation and execution/Instalação e execução
+## :hammer_and_wrench: Installation and execution
 
 <details>
   <summary markdown="span"><strong>:us: English</strong></summary><br />
@@ -163,7 +157,6 @@ npm run test:e2e
 
 <br />
 </details>
-
 
 ## :iphone: Screenshots
 
