@@ -154,9 +154,16 @@ If you prefer, it is also possible to run the E2E tests without the graphical in
 ```sh
 npm run test:e2e
 ```
+I've implemented backend integration tests with 100% coverage. To check their result, just run the command below in the project root directory:
+
+```sh
+npm run test: integration
+```
+Note: to run the integration tests, it is not necessary for the application to be running, as the interaction with the database is mocked and the tests start an instance of the API before being started.
 
 <br />
 </details>
+(./screenshots/cypress.png)
 
 ## :iphone: Screenshots
 
