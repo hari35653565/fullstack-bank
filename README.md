@@ -172,3 +172,5 @@ Note: to run the integration tests, it is not necessary for the application to b
 ![Dashboard - mobile](./screenshots/dashboard-mobile.png)
 
 ![Dashboard](./screenshots//dashboard.png)
+
+CREDIT: https://github.com/raphaelalmeidamartins/fullstack-bank
