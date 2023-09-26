@@ -1,0 +1,33 @@
+name: Publish Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Build and test your project
+
+      - name: Create release
+        uses: actions/create-release@v3
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          body: |
+            This is a release of my project.
+
+      - name: Upload assets
+        uses: actions/upload-release-asset@v3
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./my-project.zip
+
+      - name: Publish release
+        uses: eregon/publish-release@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          release_id: ${{ steps.create_release.outputs.id }}
