@@ -3,31 +3,33 @@ name: Publish Release
 on:
   push:
     branches: [main]
-
+    tags:
+      - v*
+      
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      # Build and test your project
+      - name: Build release
+        run: make build
 
       - name: Create release
-        uses: actions/create-release@latest
+        uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: ${{ github.ref_name }}
-          body: |
-            This is a release of my project.
+          tag: ${{ github.ref }}
 
-      - name: Upload assets
-        uses: actions/upload-release-asset@latest
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./my-project.zip
+          upload_url: ${{ github.event.inputs.create_release.upload_url }}
+          asset_path: ./build/my_app.zip
 
       - name: Publish release
-        uses: eregon/publish-release@latest
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          release_id: ${{ steps.create_release.outputs.id }}
+        run: |
+          curl -X PATCH \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/releases/${{ github.event.inputs.create_release.id }} \
+            -d '{
+              "draft": false
+            }'
