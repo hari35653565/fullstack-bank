@@ -15,14 +15,14 @@ jobs:
         uses: TriPSs/conventional-changelog-action@latest
         with:
           # you can also create separate token to trace action
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.TOKEN }}"
 
       - name: Create release
         uses: softprops/action-gh-release@v1
         if: ${{steps.changelog.outputs.skipped == 'false'}}
         env:
           # This token is provided by Actions, you do not need to create your own token
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           tag_name: ${{ steps.changelog.outputs.tag }}
           name: ${{ steps.changelog.outputs.tag }}
