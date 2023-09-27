@@ -34,4 +34,4 @@ jobs:
           if [[ "${{ steps.changelog.outputs.tag }}" != "${{ steps.get-latest-tag.outputs.latest_tag }}" ]]; then
             git tag -a ${{ steps.changelog.outputs.tag }} -m "Release ${{ steps.changelog.outputs.tag }}"
             git push origin ${{ steps.changelog.outputs.tag }}
-          fi
+          fi 
