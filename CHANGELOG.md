@@ -1,4 +1,13 @@
-# 1.1.0 (2023-09-27)
+## [1.1.1](https://github.com/hari35653565/fullstack-bank/compare/v1.1.0...v1.1.1) (2023-09-27)
+
+
+### Bug Fixes
+
+* update ([199fa73](https://github.com/hari35653565/fullstack-bank/commit/199fa7352e26251ed98dc2bb5b8b3f49d63df7fb))
+
+
+
+# [1.1.0](https://github.com/hari35653565/fullstack-bank/compare/9f935deb1c46f3f3a4632659664b754d0381447a...v1.1.0) (2023-09-27)
 
 
 ### Bug Fixes
