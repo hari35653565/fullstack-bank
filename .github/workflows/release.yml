@@ -11,22 +11,20 @@ jobs:
     - name: checkout
       uses: actions/checkout@v2
 
-    - name: conventional changelog action
+    - name: Conventional Changelog Action
       id: changelog
-      uses: TriPSs/conventional-changelog-action@latest
+      uses: TriPSs/conventional-changelog-action@v3
       with:
-        # you can also create separate token to trace action
-        github-token: "${{ secrets.TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        output-file: "false"
 
-    - name: create release
-      uses: softprops/action-gh-release@v1
-      if: ${{steps.changelog.outputs.skipped == 'false'}}
+    - name: Create Release
+      uses: actions/create-release@v1
+      if: ${{ steps.changelog.outputs.skipped == 'false' }}
       env:
-        # This token is provided by Actions, you do not need to create your own token
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          name: ${{ steps.changelog.outputs.tag }}
-          body: ${{steps.changelog.outputs.clean_changelog}}
-          draft: false
-          prerelease: false
+        tag_name: ${{ steps.changelog.outputs.tag }}
+        release_name: ${{ steps.changelog.outputs.tag }}
+        body: ${{ steps.changelog.outputs.clean_changelog }}   
+
