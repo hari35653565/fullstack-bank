@@ -12,28 +12,25 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build the Docker image (Intentional Failure for Testing)
+    - name: Build the Docker image
       run: |
-        echo "Building the Docker image..."
-        exit 1  # Intentional failure to simulate a build failure
+        docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - name: Check if build failed
+      id: check_build
+      run: echo "::set-output name=failed::$(docker inspect -f '{{.State.ExitCode}}' $(docker ps -lq))"
 
   notify-on-failure:
     runs-on: ubuntu-latest
     needs: build
-    if: failure()
+    if: steps.build.outputs.failed == '1'
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Send email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.office365.com
-          server_port: 587
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: 'GitHub Action Email - Build Failed'
-          body: 'The build failed in the GitHub Action workflow.'
-          to: 'haritha.guduru@gytworkz.com'
-          from: 'santosh.chintapally@gytworkz.com'
+      - name: Send email on failure
+        run: |
+          # Use a command to send an email here, for example, using a SMTP server or SendGrid API.
+          # This is just a placeholder, replace it with the actual command to send an email.
+          echo "Build failed. Sending email..."
