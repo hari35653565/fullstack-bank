@@ -14,7 +14,13 @@ jobs:
       - name: Build the Docker image
         id: build
         run: |
-          docker build . --file Duockerfile --tag my-image-name:$(date +%s) || echo "::set-output name=exitCode::1"
+          if docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
+            echo "Build successful"
+          else
+            echo "Build failed"
+            echo "::set-output name=exitCode::1"
+            exit 1
+          fi
 
   notify-on-failure:
     runs-on: ubuntu-latest
