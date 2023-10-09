@@ -12,8 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
+        id: build
         run: |
-          docker buil . --file Dockerfile --tag my-image-name:$(date +%s)
+          docker build . --file Dockerfile --tag my-image-name:$(date +%s) || echo "::set-output name=exitCode::1"
 
   notify-on-failure:
     runs-on: ubuntu-latest
@@ -22,11 +23,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Check if the build failed
-        if: ${{ steps.build.outputs.exitCode != 0 }}
-        run: |
-          echo "The build failed."
+        id: check-build-status
+        run: exit ${{ needs.build.outputs.exitCode || 0 }}
       - name: Send email
-        if: ${{ steps.build.outputs.exitCode != 0 }}
+        if: steps.check-build-status.outputs.exitCode != 0
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
