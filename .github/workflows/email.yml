@@ -12,12 +12,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Build the Docker image
+    - name: Build the Docker image (Intentional Failure for Testing)
       run: |
-        docker buil . --file Dockerfile --tag my-image-name:$(date +%s)
+        echo "Building the Docker image..."
+        exit 1  # Intentional failure to simulate a build failure
 
   notify-on-failure:
     runs-on: ubuntu-latest
+    needs: build
     if: failure()
 
     steps:
@@ -31,7 +33,7 @@ jobs:
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: 'GitHub Action Email'
-          body: 'This email is sent from a GitHub Action workflow.'
+          subject: 'GitHub Action Email - Build Failed'
+          body: 'The build failed in the GitHub Action workflow.'
           to: 'haritha.guduru@gytworkz.com'
           from: 'santosh.chintapally@gytworkz.com'
