@@ -1,0 +1,26 @@
+name: Send Email
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: 'GitHub Action Email'
+          body: 'This email is sent from a GitHub Action workflow.'
+          to: 'haritha.guduru@gytworkz.com'
+          from: 'santosh.chintapally@gytworkz.com' 
