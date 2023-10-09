@@ -2,17 +2,26 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - "main"
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      exitCode: ${{ steps.set-exit-code.outputs.exitCode }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set default exit code
+        id: set-exit-code
+        run: echo "::set-output name=exitCode::0"
+
       - name: Build the Docker image
-        id: build
         run: |
           if docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
             echo "Build successful"
@@ -25,14 +34,12 @@ jobs:
   notify-on-failure:
     runs-on: ubuntu-latest
     needs: build
+    if: failure()
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Check if the build failed
-        id: check-build-status
-        run: exit ${{ needs.build.outputs.exitCode || 0 }}
+
       - name: Send email
-        if: steps.check-build-status.outputs.exitCode != 0
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
