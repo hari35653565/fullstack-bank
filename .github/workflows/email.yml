@@ -22,5 +22,5 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: 'GitHub Action Email'
           body: 'This email is sent from a GitHub Action workflow.'
-          to: 'haritha.guduru@gytworkz.com'
+          to: 'haritha.guduru@gytworkz.com' 
           from: 'santosh.chintapally@gytworkz.com' 
