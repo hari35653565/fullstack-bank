@@ -1,13 +1,24 @@
-name: Send Email
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  send-email:
+  build:
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build the Docker image
+      run: |
+        docker buil . --file Dockerfile --tag my-image-name:$(date +%s)
+
+  notify-on-failure:
+    runs-on: ubuntu-latest
+    if: failure()
 
     steps:
       - name: Checkout code
@@ -22,5 +33,5 @@ jobs:
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: 'GitHub Action Email'
           body: 'This email is sent from a GitHub Action workflow.'
-          to: 'haritha.guduru@gytworkz.com' 
-          from: 'santosh.chintapally@gytworkz.com' 
+          to: 'haritha.guduru@gytworkz.com'
+          from: 'santosh.chintapally@gytworkz.com'
