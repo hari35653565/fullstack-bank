@@ -63,7 +63,6 @@ jobs:
           else
             echo "Build failed"
             echo "exitCode=1" >>$GITHUB_ENV
-            exit 1
           fi
           
       - name: Send email on failure (chatbotclient)
