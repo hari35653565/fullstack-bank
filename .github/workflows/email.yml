@@ -17,15 +17,19 @@ jobs:
 
       - name: Set default exit code
         id: set-exit-code
-        run: echo "exitCode1=0" >> $GITHUB_OUTPUT
+        run: |
+          echo "exitCode1=0" >> $GITHUB_OUTPUT
+          echo $build1.outputs.exitCode1
 
       - name: Build the Docker image
         run: |
           if docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
             echo "Build successful"
+            echo $build1.outputs.exitCode1
           else
             echo "Build failed"
             echo "exitCode1=1" >> $GITHUB_OUTPUT
+            echo $build1.outputs.exitCode1
             exit 1
           fi
 
@@ -37,15 +41,19 @@ jobs:
 
       - name: Set default exit code
         id: set-exit-code
-        run: echo "exitCode=0" >> $GITHUB_ENV
+        run: |
+          echo "exitCode=0" >> $GITHUB_ENV
+          echo $build1.outputs.exitCode
 
       - name: Build the Docker image
         run: |
           if echo "Hello, world!"; then
             echo "Build successful"
+            echo $build1.outputs.exitCode
           else
             echo "Build failed"
             echo "exitCode=1" >> $GITHUB_ENV
+            echo $build1.outputs.exitCode
             exit 1
           fi
 
