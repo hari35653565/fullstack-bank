@@ -19,7 +19,7 @@ jobs:
 
       - name: Set default exit code
         id: set-exit-code
-        run: echo "::set-output name=exitCode::0"
+        run: echo "exitCode=0" >>$GITHUB_OUTPUT
 
       - name: Build the Docker image
         run: |
@@ -27,7 +27,7 @@ jobs:
             echo "Build successful"
           else
             echo "Build failed"
-            echo "::set-output name=exitCode::1"
+            echo "exitCode=1" >>$GITHUB_OUTPUT
             exit 1
           fi
 
