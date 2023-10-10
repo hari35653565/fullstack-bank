@@ -25,8 +25,8 @@ jobs:
         run: |
           if echo Hello, world!; then
             echo "Build successful"
-            echo exitCode
-            echo GITHUB_OUTPUT
+            echo $exitCode
+            echo $GITHUB_OUTPUT
           else
             echo "Build failed"
             echo "exitCode=1" >>$GITHUB_OUTPUT
