@@ -19,20 +19,18 @@ jobs:
 
       - name: Set default exit code for build1
         id: set-exit-code1
-        run: echo "exitCodeBuild1=0" >> $GITHUB_ENV
-
-      - name: Build the Docker image
         run: |
           if docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
             echo "Build successful for build1"
           else
             echo "Build failed for build1"
             echo "exitCodeBuild1=1" >> $GITHUB_ENV
+            echo $GITHUB_ENV
             exit 1
           fi
-          
+
       - name: Send email on failure (build1)
-        if: needs.build1.outputs.exitCodeBuild1 == 1
+        if: ${{ needs.build1.outputs.exitCodeBuild1 == '1' }}
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
@@ -54,9 +52,6 @@ jobs:
 
       - name: Set default exit code for build2
         id: set-exit-code2
-        run: echo "exitCodeBuild2=0" >> $GITHUB_ENV
-
-      - name: Build Hello World
         run: |
           if echo Hello, world!; then
             echo "Build successful for build2"
@@ -65,7 +60,7 @@ jobs:
             echo "exitCodeBuild2=1" >> $GITHUB_ENV
             exit 1
           fi
-          
+
       - name: Send email on failure (build2)
         if: ${{ needs.build2.outputs.exitCodeBuild2 == '1' }}
         uses: dawidd6/action-send-mail@v3
