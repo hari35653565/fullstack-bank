@@ -32,7 +32,7 @@ jobs:
           fi
           
       - name: Send email on failure (build1)
-        if: ${{ needs.build1.outputs.exitCodeBuild1 == '1' }}
+        if: ${{ needs.build1.outputs.exitCodeBuild1 }} != '0'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
@@ -67,7 +67,7 @@ jobs:
           fi
           
       - name: Send email on failure (build2)
-        if: ${{ needs.build2.outputs.exitCodeBuild2 == '1' }}
+        if: ${{ needs.build2.outputs.exitCodeBuild2 }} != '0'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
