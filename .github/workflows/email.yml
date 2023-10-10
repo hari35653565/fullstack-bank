@@ -8,70 +8,73 @@ on:
     branches:
       - "main"
 
-jobs:
+jobs: 
   build1:
     runs-on: ubuntu-latest
+    outputs:
+      exitCode: ${{ steps.set-exit-code.outputs.exitCode }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set default exit code
         id: set-exit-code
-        run: |
-          echo "exitCode1=0" >> $GITHUB_OUTPUT
-          echo $build1.outputs.exitCode1
+        run: echo "exitCode=0" >>$GITHUB_ENV
 
       - name: Build the Docker image
         run: |
           if docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
             echo "Build successful"
-            echo $build1.outputs.exitCode1
           else
             echo "Build failed"
-            echo "exitCode1=1" >> $GITHUB_OUTPUT
-            echo $build1.outputs.exitCode1
+            echo "exitCode=1" >>$GITHUB_ENV
             exit 1
           fi
-
-  build2:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set default exit code
-        id: set-exit-code
-        run: |
-          echo "exitCode=0" >> $GITHUB_ENV
-          echo $build1.outputs.exitCode
-
-      - name: Build the Docker image
-        run: |
-          if echo "Hello, world!"; then
-            echo "Build successful"
-            echo $build1.outputs.exitCode
-          else
-            echo "Build failed"
-            echo "exitCode=1" >> $GITHUB_ENV
-            echo $build1.outputs.exitCode
-            exit 1
-          fi
-
-  notify-on-failure:
-    runs-on: ubuntu-latest
-    needs: [build1, build2]
-    if: ${{ needs.build1.outputs.exitCode1 == '1' || needs.build2.outputs.exitCode == '1' }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Send email on failure
+          
+      - name: Send email on failure (chatbotclient)
+        if: ${{ env.exitCode }} != '0'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
           server_port: 587
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: 'GitHub Action Email - Build Failed'
-          body: 'At least one of the builds failed in the GitHub Action workflow.'
+          subject: 'Build Failed: Chatbot Client'
+          body: 'The build for Chatbot Client failed in the GitHub Action workflow.'
           to: 'haritha.guduru@gytworkz.com'
           from: 'santosh.chintapally@gytworkz.com'
+
+  build2:
+    runs-on: ubuntu-latest
+    outputs:
+      exitCode: ${{ steps.set-exit-code.outputs.exitCode }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set default exit code
+        id: set-exit-code
+        run: echo "exitCode=0" >>$GITHUB_ENV
+
+      - name: Build Hello World
+        run: |
+          if echo Hello, world!; then
+            echo "Build successful"
+          else
+            echo "Build failed"
+            echo "exitCode=1" >>$GITHUB_ENV
+            exit 1
+          fi
+          
+      - name: Send email on failure (chatbotclient)
+        if: ${{ env.exitCode }} != '0'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: 'Build Failed: Chatbot Client'
+          body: 'The build for Chatbot Client failed in the GitHub Action workflow.'
+          to: 'haritha.guduru@gytworkz.com'
+          from: 'santosh.chintapally@gytworkz.com'   
