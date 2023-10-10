@@ -8,8 +8,8 @@ on:
     branches:
       - "main"
 
-jobs: 
-  build:
+jobs:
+  build1:
     runs-on: ubuntu-latest
     outputs:
       exitCode: ${{ steps.set-exit-code.outputs.exitCode }}
@@ -19,29 +19,48 @@ jobs:
 
       - name: Set default exit code
         id: set-exit-code
-        run: echo "exitCode=0" >>$GITHUB_OUTPUT
+        run: echo "exitCode=0" >> $GITHUB_ENV
 
       - name: Build the Docker image
         run: |
-          if echo Hello, world!; then
+          if docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
             echo "Build successful"
-            echo $exitCode
-            echo $GITHUB_OUTPUT
           else
             echo "Build failed"
-            echo "exitCode=1" >>$GITHUB_OUTPUT
+            echo "exitCode=1" >> $GITHUB_ENV
+            exit 1
+          fi
+
+  build2:
+    runs-on: ubuntu-latest
+    outputs:
+      exitCode: ${{ steps.set-exit-code.outputs.exitCode }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set default exit code
+        id: set-exit-code
+        run: echo "exitCode=0" >> $GITHUB_ENV
+
+      - name: Build the Docker image
+        run: |
+          if echo "Hello, world!"; then
+            echo "Build successful"
+          else
+            echo "Build failed"
+            echo "exitCode=1" >> $GITHUB_ENV
             exit 1
           fi
 
   notify-on-failure:
     runs-on: ubuntu-latest
-    needs: build
-    if: failure()
+    needs: [build1, build2]
+    if: ${{ needs.build1.outputs.exitCode == '1' || needs.build2.outputs.exitCode == '1' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Send email
+      - name: Send email on failure
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
@@ -49,6 +68,6 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: 'GitHub Action Email - Build Failed'
-          body: 'The build failed in the GitHub Action workflow.'
+          body: 'At least one of the builds failed in the GitHub Action workflow.'
           to: 'haritha.guduru@gytworkz.com'
           from: 'santosh.chintapally@gytworkz.com'
