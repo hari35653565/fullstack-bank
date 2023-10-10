@@ -62,7 +62,7 @@ Full stack digital wallet application developed in Next.js and Node.js with Type
 * Chai.js
 * Sinon.js
 * Docker
-* Docker Compose
+* Docker Compose [] checking
 
 ## :hammer_and_wrench: Installation and execution
 
