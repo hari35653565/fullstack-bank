@@ -9,7 +9,7 @@
 
 Full stack digital wallet application developed in Next.js and Node.js with TypeScript and built with Docker.
 
-**Note:** the application is currently only in Brazilian Portuguese, I want to add an English translation soon. thats good. 
+**Note:** the application is currently only in Brazilian Portuguese, I want to add an English translation soon. thats good.
 <br />
 </details>
 
@@ -27,7 +27,6 @@ Full stack digital wallet application developed in Next.js and Node.js with Type
 * Implement backend integration tests using Mocha.js, Chai.js and Sinon.js with 100% coverage
 * implement E2E tests with the Cypress framework in conjunction with the Testing Library
 * Dockerize the application using Docker Compose
-* checking works or not
 
 <br />
 </details>
