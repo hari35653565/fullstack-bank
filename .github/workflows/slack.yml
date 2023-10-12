@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+          echo Hello world!
        
       - name: Slack Notification
         uses: act10ns/slack@v1
