@@ -30,8 +30,9 @@ jobs:
         uses: act10ns/slack@v1
         with: 
           status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
           channel: '#app'
-          message: Build ${GITHUB_REF} branch Successfully
+          message: Build ${{env.GITHUB_REF_NAME}}
         if: always()
 
   build2:
@@ -58,6 +59,7 @@ jobs:
         uses: act10ns/slack@v1
         with: 
           status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
           channel: '#app'
-          message: Build ${GITHUB_REF} branch Successfully
+          message: Build ${{env.GITHUB_REF_NAME}}
         if: always()
