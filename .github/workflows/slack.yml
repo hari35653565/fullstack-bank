@@ -15,11 +15,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set default exit code for build1
+      - name: Build Docker Image
         run: |
-          docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
-          exit 0
+          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
         shell: bash
+
+      - name: Set default exit code for build1
+        run: exit 0
 
       - name: Notify on Slack
         if: always()  # This step will always run, regardless of job status
