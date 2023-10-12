@@ -1,0 +1,56 @@
+name: Email and docker
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  build1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set default exit code for build1
+        run: |
+          docker build . --file Dockerfile --tag my-image-name:$(date +%s); then
+          exit 0
+        shell: bash
+
+      - name: Notify on Slack
+        if: always()  # This step will always run, regardless of job status
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          status: ${{ job.status }}
+          color: ${{ job.status == 'success' ? 'good' : 'danger' }}
+          author_name: 'GitHub Actions'
+          text: 'Chatbot Client deployment ${{ job.status }}.'
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  build2:
+    runs-on: ubuntu-latest
+    outputs:
+      exitCodeBuild2: ${{ steps.set-exit-code2.outputs.exitCode }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set default exit code for build2
+        run: |
+          echo Hello, world!
+          exit 0
+        shell: bash
+
+      - name: Notify on Slack
+        if: always()  # This step will always run, regardless of job status
+        uses: rtCamp/action-slack-notify@v2
+        with:
+          status: ${{ job.status }}
+          color: ${{ job.status == 'success' ? 'good' : 'danger' }}
+          author_name: 'GitHub Actions'
+          text: 'Chatbot Client deployment ${{ job.status }}.'
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
