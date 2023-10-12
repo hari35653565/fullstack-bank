@@ -26,7 +26,7 @@ Full stack digital wallet application developed in Next.js and Node.js with Type
 * Document the API with Open API and the Swagger UI framework
 * Implement backend integration tests using Mocha.js, Chai.js and Sinon.js with 100% coverage
 * implement E2E tests with the Cypress framework in conjunction with the Testing Library
-* Dockerize the application using Docker Compose
+* Dockerize the application using Docker Compose.
 
 <br />
 </details>
