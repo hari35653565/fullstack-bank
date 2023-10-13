@@ -15,7 +15,7 @@ jobs:
         uses: act10ns/slack@v1
         with: 
           status: starting
-          channel: '#app'
+          channel: '#general'
           message: Starting Docker Build
         if: always()
       
@@ -31,7 +31,7 @@ jobs:
         with: 
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
-          channel: '#app'
+          channel: '#general'
           message: Build1 ${{env.GITHUB_REF_NAME}}
         if: always()
 
