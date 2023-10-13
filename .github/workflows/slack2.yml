@@ -4,11 +4,10 @@ on:
   push:
     branches:
       - "main"
+
 jobs:
   build1:
     runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -16,19 +15,17 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-       
+
   build2:
     runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build Docker Image
+      - name: Run Hello World Script
         run: |
           echo Hello world!
-		  
+
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
@@ -36,16 +33,13 @@ jobs:
       - build1
       - build2
     runs-on: ubuntu-latest
-    # actions.read permission is required.
     permissions:
       actions: 'read'
     steps:
       - name: Slack Workflow Notification
         uses: Gamesight/slack-workflow-status@master
         with:
-          # Required Input
-          repo_token: ${{secrets.TOKEN}}
-          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
-          # Optional Input
+          repo_token: ${{ secrets.TOKEN }} # GitHub automatically creates a GITHUB_TOKEN secret for you.
+          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
           channel: '#app'
           name: 'hari'
