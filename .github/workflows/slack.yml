@@ -1,4 +1,4 @@
-name: Hello world and Docker
+name: Docker and Hello World
 
 on:
   push:
@@ -24,15 +24,15 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+          docker build . --file Dockerfile --tag my-image-name:$(date "+%s")
        
       - name: Slack Notification
         uses: act10ns/slack@v1
         with: 
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
+          steps: ${{ toJson(runner.steps) }}
           channel: '#app'
-          message: Build1 ${{env.GITHUB_REF_NAME}}
+          message: Build1 ${{ env.GITHUB_REF | basename }}
         if: always()
 
   build2:
@@ -59,7 +59,7 @@ jobs:
         uses: act10ns/slack@v1
         with: 
           status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
+          steps: ${{ toJson(runner.steps) }}
           channel: '#app'
-          message: Build2 ${{env.GITHUB_REF_NAME}}
+          message: Build2 ${{ env.GITHUB_REF | basename }}
         if: always()
