@@ -1,4 +1,4 @@
-name: Email and docker
+name: Hello world and Docker
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
         with: 
           status: starting
           channel: '#app'
-          message: Starting Build and Deploy...
+          message: Starting Docker Build
         if: always()
       
       - name: Checkout repository
@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          echo Hello world!
+          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
        
       - name: Slack Notification
         uses: act10ns/slack@v1
@@ -32,7 +32,7 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#app'
-          message: Build ${{env.GITHUB_REF_NAME}}
+          message: Build1 ${{env.GITHUB_REF_NAME}}
         if: always()
 
   build2:
@@ -45,13 +45,13 @@ jobs:
         with: 
           status: starting
           channel: '#app'
-          message: Starting Build and Deploy...
+          message: Starting Hello World
         if: always()
       
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build Docker Image
+      - name: Starting Hello World
         run: |
           echo Hello world!
        
@@ -61,5 +61,5 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#app'
-          message: Build ${{env.GITHUB_REF_NAME}}
+          message: Build2 ${{env.GITHUB_REF_NAME}}
         if: always()
