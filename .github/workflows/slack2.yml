@@ -1,24 +1,40 @@
-name: World Greeter
+name: Docker and Hello world
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - "main"
 jobs:
-  job-1:
+  build1:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
-      - name: Say Hello
-        run: echo "Hello"
-  job-2:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: |
+          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+       
+  build2:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
-      - name: Say World
-        run: echo "World"
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: |
+          echo Hello world!
+		  
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
     needs:
-      - job-1
-      - job-2
+      - build1
+      - build2
     runs-on: ubuntu-latest
     # actions.read permission is required.
     permissions:
@@ -28,10 +44,8 @@ jobs:
         uses: Gamesight/slack-workflow-status@master
         with:
           # Required Input
-          repo_token: ${{secrets.GITHUB_TOKEN}}
+          repo_token: ${{secrets.TOKEN}}
           slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
           # Optional Input
-          channel: '#anthony-test-channel'
-          name: 'Anthony Workflow Bot'
-          icon_emoji: ':poop:'
-          icon_url: 'https://avatars0.githubusercontent.com/u/1701160?s=96&v=4'
+          channel: '#app'
+          name: 'hari'
