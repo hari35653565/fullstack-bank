@@ -12,7 +12,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: Slack Notification
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         with: 
           status: starting
           channel: '#app'
@@ -27,7 +27,7 @@ jobs:
           docker build . --file Dockerfile --tag my-image-name:$(date "+%s")
        
       - name: Slack Notification
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         with: 
           status: ${{ job.status }}
           steps: ${{ toJson(runner.steps) }}
@@ -41,7 +41,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
       - name: Slack Notification
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         with: 
           status: starting
           channel: '#app'
@@ -56,7 +56,7 @@ jobs:
           echo Hello world!
        
       - name: Slack Notification
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@v2
         with: 
           status: ${{ job.status }}
           steps: ${{ toJson(runner.steps) }}
