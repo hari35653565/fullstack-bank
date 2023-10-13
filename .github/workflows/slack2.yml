@@ -25,13 +25,23 @@ jobs:
       - name: Run Hello World Script
         run: |
           echo Hello world!
+  build3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
+      - name: Run Hello World Script
+        run: |
+          echo Hello world!
+          
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
     needs:
       - build1
       - build2
+      - build3
     runs-on: ubuntu-latest
     permissions:
       actions: 'read'
