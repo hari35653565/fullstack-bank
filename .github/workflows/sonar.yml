@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:     
+  workflow_dispatch:
 
 jobs:
   sonarcloud:
@@ -18,6 +18,14 @@ jobs:
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.projectName=Bank \
+            -Dsonar.projectKey=Bank
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SCANNER_HOME: SCANNER_HOME/bin/sonar-scanner # Update this with the actual path to your SonarScanner installation
+
+      # Add additional steps as needed
