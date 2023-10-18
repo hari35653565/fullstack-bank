@@ -12,7 +12,7 @@ jobs:
         run: |
           /usr/local/bin/sonar-scanner \
             -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=<Your_SonarQube_Token> \
+            -Dsonar.login=SONAR_TOKEN \
             -Dsonar.projectName=Bank \
             -Dsonar.projectKey=Bank \
             -Dsonar.sources=lib/ # Specify the path to your source code directory
