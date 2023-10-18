@@ -1,5 +1,3 @@
-name: sonar
-
 on:
   push:
     branches:
@@ -13,19 +11,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
 
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        with:
-          projectBaseDir: .
-          args: >
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+      - name: Set up SonarCloud Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Set the SONAR_TOKEN environment variable
+        run: |
+          /usr/bin/git config --global --add safe.directory /home/runner/work/fullstack-bank/fullstack-bank
+          # Additional setup commands if necessary
+          /path/to/sonar-scanner -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=${SONAR_TOKEN} \
             -Dsonar.projectName=Bank \
             -Dsonar.projectKey=Bank
-        env:
-          SCANNER_HOME: SCANNER_HOME/bin/sonar-scanner # Update this with the actual path to your SonarScanner installation
 
-      # Add additional steps as needed
+      
