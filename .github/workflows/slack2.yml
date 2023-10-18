@@ -26,15 +26,18 @@ jobs:
       - name: Run Hello World Script
         run: |
           echo Hello world!
+          
   build3:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Run Hello World Script
-        run: |
-          echo Hello world!
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+         files: |
+           test-results/**/*.xml
+           test-results/**/*.trx
+           test-results/**/*.json
           
   slack-workflow-status:
     if: always()
