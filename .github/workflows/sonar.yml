@@ -8,20 +8,15 @@ jobs:
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Set up SonarCloud Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Set the SONAR_TOKEN environment variable
+      - name: SonarCloud Scan
         run: |
-          /usr/bin/git config --global --add safe.directory /home/runner/work/fullstack-bank/fullstack-bank
-          # Additional setup commands if necessary
-          /path/to/sonar-scanner -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=${SONAR_TOKEN} \
+          /usr/local/bin/sonar-scanner \
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=<Your_SonarQube_Token> \
             -Dsonar.projectName=Bank \
-            -Dsonar.projectKey=Bank
+            -Dsonar.projectKey=Bank \
+            -Dsonar.sources=lib/ # Specify the path to your source code directory
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Set the SONAR_TOKEN environment variable using GitHub secret
 
-      
+    
