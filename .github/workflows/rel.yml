@@ -1,28 +1,18 @@
-name: Example workflow
-
+name: Release
 on:
   push:
     branches:
-      - "main"
-  workflow_dispatch:    
-  
+      - main
 jobs:
-  example:
-    name: Example
+  release:
+    name: Release code
     runs-on: ubuntu-latest
-
     steps:
-    - name: Clone repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        ref: ${{ github.event.pull_request.head.sha }}
-    - name: Get next version
-      id: get_next_version
-      uses: thenativeweb/get-next-version@main
-      with:
-        prefix: 'v' # optional, defaults to ''
-    - name: Show the next version
-      run: |
-        echo ${{ steps.get_next_version.outputs.version }}
-        echo ${{ steps.get_next_version.outputs.hasNextVersion }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Release
+        uses: jef/conventional-commits-release-action@v1
+        with:
+          token: ${{ secrets.TOKEN }}
