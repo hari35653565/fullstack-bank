@@ -1,7 +1,11 @@
 name: Example workflow
 
-on: pull_request
-
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:    
+  
 jobs:
   example:
     name: Example
