@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+  
 jobs:
   release:
     name: Release code
@@ -13,6 +15,10 @@ jobs:
         with:
           fetch-depth: 0
       - name: Release
+        id: changelog
         uses: jef/conventional-commits-release-action@v1
         with:
           token: ${{ secrets.TOKEN }}
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
