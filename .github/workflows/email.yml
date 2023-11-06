@@ -28,7 +28,7 @@ jobs:
           fi
 
       - name: Send email on failure (build1)
-        if:  steps.set-exit-code1.outputs.exitCodeBuild1 == '1' ## Improvment ##
+        if:  steps.set-exit-code1.outputs.exitCodeBuild1 == '1' && !cancelled() ## Improvment ##
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
@@ -58,7 +58,7 @@ jobs:
           fi
 
       - name: Send email on failure (build1)
-        if:  steps.set-exit-code2.outputs.exitCodeBuild2 == '1' ## Improvment ##
+        if:  steps.set-exit-code2.outputs.exitCodeBuild2 == '1' && !cancelled() ## Improvment ##
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.office365.com
