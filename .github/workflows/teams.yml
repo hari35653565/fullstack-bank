@@ -35,11 +35,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Teams Workflow Notification
-        uses: opsless/ms-teams-github-actions@main
+        uses: sergioaten/msteams-notifications@v0.1-beta
         with:
-          github-token: ${{ secrets.TOKEN }}
-          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          status: ${{ (needs.build1.result == 'success' && needs.build2.result == 'success') && 'All jobs completed successfully' || 'One or more jobs failed' }}
+          webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          steps: ${{ toJson(steps) }}
+          factsTitle: "Workflow Details"
+          facts: |
+            - Author: Haritha
+            - Version: 1.0.0
+          buttons: |
+            - type: OpenUri
+              name: View in GitHub
+              targets:
+                - os: default
+                  uri: https://github.com/sergioaten/msteams-notifications
