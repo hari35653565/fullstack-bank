@@ -16,7 +16,12 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-
+          
+      - name: Set job status
+        id: set_status
+        run: echo "::set-output name=job_status::success"
+        if: ${{ success() }}
+        
   build2:
     runs-on: ubuntu-latest
     steps:
@@ -26,6 +31,11 @@ jobs:
       - name: Starting Hello World
         run: |
           echo Hello world!
+
+      - name: Set job status
+        id: set_status
+        run: echo "::set-output name=job_status::success"
+        if: ${{ success() }}     
 
   teams_notification:
     if: always()
@@ -38,17 +48,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Teams Workflow Notification
-        uses: sergioaten/msteams-notifications@v0.1-beta
+        uses: opsless/ms-teams-github-actions@main
         with:
+          github-token: ${{ secrets.TOKEN }}
           webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          steps: ${{ toJson(steps) }}
-          factsTitle: "Workflow Details"
-          facts: |
-            - Author: Haritha
-            - Version: 1.0.0
-          buttons: |
-            - type: OpenUri
-              name: View in GitHub
-              targets:
-                - os: default
-                  uri: https://github.com/sergioaten/msteams-notifications
+          status: |
+            ${{ (needs.build1.outputs.job_status == 'success' && needs.build2.outputs.job_status == 'success') && 'Success: All jobs completed successfully' || 'Failure: One or more jobs failed' }}
