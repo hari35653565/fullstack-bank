@@ -17,7 +17,6 @@ jobs:
         id: build1
         run: |
           docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-
       - name: Set job status
         id: set_status_build1
         run: echo "::set-output name=job1_status::${{ job.status }}"
@@ -28,9 +27,9 @@ jobs:
         with:
           webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
           title: Build 1 Status
-          titleBackgroundColor: ${{ steps.job1.outcome }}
-          status: ${{ steps.job1.outcome }}
-          message: Build 1 has been run. Status: ${{ steps.job1.outcome }}
+          titleBackgroundColor: ${{ steps.build1.outcome }}
+          status: ${{ steps.build1.outcome }}
+          message: Build 1 has been run. Status: ${{ steps.build1.outcome }}
         env:
           SHOULD_DISPLAY_ACTOR_LABEL: true
           SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
@@ -45,7 +44,6 @@ jobs:
       - name: Starting Hello World
         run: |
           echo Hello world!
-
       - name: Set job status
         id: set_status_build2
         run: echo "::set-output name=job2_status::${{ job.status }}"
@@ -56,9 +54,9 @@ jobs:
         with:
           webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
           title: Build 2 Status
-          titleBackgroundColor: ${{ steps.job2.outcome }}
-          status: ${{ steps.job2.outcome }}
-          message: Build 2 has been run. Status: ${{ steps.job2.outcome }}
+          titleBackgroundColor: ${{ steps.build2.outcome }}
+          status: ${{ steps.build2.outcome }}
+          message: Build 2 has been run. Status: ${{ steps.build2.outcome }}
         env:
           SHOULD_DISPLAY_ACTOR_LABEL: true
           SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
