@@ -1,0 +1,58 @@
+name: MSTeams
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_and_analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: |
+          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+      - name: Run Static Code Analysis and Security Scan
+        run: |
+          # Run SAST scan for TypeScript, CSS, SCSS, and JavaScript
+          echo "Running Static Code Analysis and Security Scan..."
+          # Replace this comment with the command to run your specific SAST tool for TypeScript, CSS, SCSS, JavaScript
+
+  sast_scan_and_upload_reports:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Self SAST Scan
+        uses: AppThreat/sast-scan-action@v1.0.0
+        with:
+          output: reports
+          type: "typescript,css,scss,javascript"
+
+      - name: Upload Scan Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: sast-scan-reports
+          path: reports
+
+  teams_notification:
+    if: always()
+    needs:
+      - build_and_analyze
+      - sast_scan_and_upload_reports
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Teams Workflow Notification
+        uses: toko-bifrost/ms-teams-deploy-card@master
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          team_webhook_url: ${{ secrets.TEAMS_WEBHOOK_URL }}
