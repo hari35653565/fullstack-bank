@@ -28,6 +28,7 @@ jobs:
           webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
           message: Workflow has been run
           titleBackgroundColor: ${{ job.status }}
+          Text: Workflow is ${{ steps.<step_id>.outcome }}
         env:
           SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
           SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
@@ -53,6 +54,7 @@ jobs:
           webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
           message: Workflow has been run
           titleBackgroundColor: ${{ job.status }}
+          Text: Workflow is ${{ steps.<step_id>.outcome }}
         env:
           SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
           SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
