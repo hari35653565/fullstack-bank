@@ -42,3 +42,4 @@ jobs:
         with:
           github-token: ${{ secrets.TOKEN }}
           webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          status: ${{ (needs.build1.result == 'success' && needs.build2.result == 'success') && 'All jobs completed successfully' || 'One or more jobs failed' }}
