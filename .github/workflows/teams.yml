@@ -41,4 +41,4 @@ jobs:
         uses: toko-bifrost/ms-teams-deploy-card@master
         with:
           github-token: ${{ secrets.TOKEN }}
-          webhook_uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
