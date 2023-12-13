@@ -40,5 +40,5 @@ jobs:
       - name: Teams Workflow Notification
         uses: toko-bifrost/ms-teams-deploy-card@master
         with:
-          repo_token: ${{ secrets.TOKEN }}
-          team_webhook_url: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          github-token: ${{ secrets.TOKEN }}
+          webhook_uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
