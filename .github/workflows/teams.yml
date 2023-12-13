@@ -35,10 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Teams Workflow Notification
-        uses: toko-bifrost/ms-teams-deploy-card@master
+        uses: opsless/ms-teams-github-actions@main
         with:
           github-token: ${{ secrets.TOKEN }}
           webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
