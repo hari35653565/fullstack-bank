@@ -19,9 +19,8 @@ jobs:
           
       - name: Set job status
         id: set_status
-        run: echo "::set-output name=job_status::success"
-        if: ${{ success() }}
-        
+        run: echo "::set-output name=job1_status::${{ job.status }}"
+
   build2:
     runs-on: ubuntu-latest
     steps:
@@ -34,8 +33,7 @@ jobs:
 
       - name: Set job status
         id: set_status
-        run: echo "::set-output name=job_status::success"
-        if: ${{ success() }}     
+        run: echo "::set-output name=job2_status::${{ job.status }}"     
 
   teams_notification:
     if: always()
@@ -53,4 +51,5 @@ jobs:
           github-token: ${{ secrets.TOKEN }}
           webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
           status: |
-            ${{ (needs.build1.outputs.job_status == 'success' && needs.build2.outputs.job_status == 'success') && 'Success: All jobs completed successfully' || 'Failure: One or more jobs failed' }}
+            Job 1 status: ${{ needs.build1.outputs.job1_status }}
+            Job 2 status: ${{ needs.build2.outputs.job2_status }}
