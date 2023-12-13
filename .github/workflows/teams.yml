@@ -19,7 +19,7 @@ jobs:
           
       - name: Set job status
         id: set_status
-        run: echo "::set-output name=job1_status::${{ job.status }}"
+        run: echo "::set-output name=build1_status::${{ job.status }}"
       
       - name: Notify Teams Build Status
         uses: neonidian/teams-notify-build-status@v3
@@ -29,7 +29,10 @@ jobs:
           message: Workflow has been run
           titleBackgroundColor: ${{ job.status }}
         env:
+          SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
           SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
+          SHOULD_DISPLAY_ACTOR_LABEL: true
+		  
 
   build2:
     runs-on: ubuntu-latest
@@ -43,7 +46,7 @@ jobs:
 
       - name: Set job status
         id: set_status
-        run: echo "::set-output name=job2_status::${{ job.status }}"
+        run: echo "::set-output name=build2_status::${{ job.status }}"
 
       - name: Notify Teams Build Status
         uses: neonidian/teams-notify-build-status@v3
@@ -53,4 +56,6 @@ jobs:
           message: Workflow has been run
           titleBackgroundColor: ${{ job.status }}
         env:
+          SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
           SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
+          SHOULD_DISPLAY_ACTOR_LABEL: true
