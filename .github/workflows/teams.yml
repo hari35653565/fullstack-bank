@@ -20,6 +20,16 @@ jobs:
       - name: Set job status
         id: set_status
         run: echo "::set-output name=job1_status::${{ job.status }}"
+      
+      - name: Notify Teams Build Status
+        uses: neonidian/teams-notify-build-status@v3
+        if: always()
+        with:
+          webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          message: Workflow has been run
+          titleBackgroundColor: ${{ job.status }}
+        env:
+          SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
 
   build2:
     runs-on: ubuntu-latest
@@ -33,23 +43,14 @@ jobs:
 
       - name: Set job status
         id: set_status
-        run: echo "::set-output name=job2_status::${{ job.status }}"     
+        run: echo "::set-output name=job2_status::${{ job.status }}"
 
-  teams_notification:
-    if: always()
-    needs:
-      - build1
-      - build2
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Teams Workflow Notification
-        uses: opsless/ms-teams-github-actions@main
+      - name: Notify Teams Build Status
+        uses: neonidian/teams-notify-build-status@v3
+        if: always()
         with:
-          github-token: ${{ secrets.TOKEN }}
-          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          status: |
-            Job 1 status: ${{ needs.build1.outputs.job1_status }}
-            Job 2 status: ${{ needs.build2.outputs.job2_status }}
+          webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          message: Workflow has been run
+          titleBackgroundColor: ${{ job.status }}
+        env:
+          SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
