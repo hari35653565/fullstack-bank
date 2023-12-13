@@ -51,6 +51,6 @@ jobs:
         uses: opsless/ms-teams-github-actions@main
         with:
           github-token: ${{ secrets.TOKEN }}
-          webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
           status: |
             ${{ (needs.build1.outputs.job_status == 'success' && needs.build2.outputs.job_status == 'success') && 'Success: All jobs completed successfully' || 'Failure: One or more jobs failed' }}
