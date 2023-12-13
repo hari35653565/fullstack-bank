@@ -28,10 +28,10 @@ jobs:
           webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
           message: Workflow has been run
           titleBackgroundColor: ${{ job.status }}
-        env:
-          SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
-          SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
-          SHOULD_DISPLAY_ACTOR_LABEL: true
+          env:
+            SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
+            SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
+            SHOULD_DISPLAY_ACTOR_LABEL: true
 		  
 
   build2:
@@ -55,7 +55,7 @@ jobs:
           webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
           message: Workflow has been run
           titleBackgroundColor: ${{ job.status }}
-        env:
-          SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
-          SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
-          SHOULD_DISPLAY_ACTOR_LABEL: true
+          env:
+            SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
+            SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
+            SHOULD_DISPLAY_ACTOR_LABEL: true
