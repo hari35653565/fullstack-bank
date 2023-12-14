@@ -39,6 +39,6 @@ jobs:
         uses: hunghg255/action-notifications@master
         if: always()
         with:
-          webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          ms_teams_webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
           title: Build 2 Status
           
