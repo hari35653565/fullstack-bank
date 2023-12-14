@@ -1,0 +1,64 @@
+name: MS-Teams and Experiment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        id: build1
+        run: |
+          docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Set job status
+        id: set_status_build1
+        run: echo "::set-output name=job1_status::${{ job.status }}"
+      
+      - name: Notify Teams Build Status
+        uses: neonidian/teams-notify-build-status@v3
+        if: always()
+        with:
+          webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: Build 1 Status
+          titleBackgroundColor: ${{ steps.build1.outcome }}
+          status: ${{ steps.build1.outcome }}
+          message: Build 1 has been run. Status is ${{ steps.build1.outcome }}.
+        env:
+          SHOULD_DISPLAY_ACTOR_LABEL: true
+          SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
+          SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
+
+  build2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Starting Hello World
+        id: build2
+        run: |
+          echo Hello world!
+      - name: Set job status
+        id: set_status_build2
+        run: echo "::set-output name=job2_status::${{ job.status }}"
+
+      - name: Notify Teams Build Status
+        uses: neonidian/teams-notify-build-status@v3
+        if: always()
+        with:
+          webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          title: Build 2 Status
+          titleBackgroundColor: ${{ steps.build2.outcome }}
+          status: ${{ steps.build2.outcome }}
+          message: Build 2 has been run. Status is ${{ steps.build2.outcome }}.
+        env:
+          SHOULD_DISPLAY_ACTOR_LABEL: true
+          SHOULD_DISPLAY_VIEW_RUN_BUTTON: true
+          SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: true
