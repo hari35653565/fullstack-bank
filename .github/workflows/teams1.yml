@@ -17,9 +17,6 @@ jobs:
         id: build1
         run: |
           docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-      - name: Set job status
-        id: set_status_build1
-      
       - name: Notify Teams Build Status
         uses: hunghg255/action-notifications@master
         if: always()
@@ -38,9 +35,6 @@ jobs:
         id: build2
         run: |
           echo Hello world!
-      - name: Set job status
-        id: set_status_build2
-       
       - name: Notify Teams Build Status
         uses: hunghg255/action-notifications@master
         if: always()
