@@ -9,23 +9,29 @@ on:
 jobs:
   build1:
     runs-on: ubuntu-latest
+    outputs:
+      # Define an output variable to store the status of build1
+      id: build1
+      value: ${{ job.status }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Build Docker Image
-        id: build1
         run: |
           docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
   build2:
     runs-on: ubuntu-latest
+    outputs:
+      # Define an output variable to store the status of build2
+      id: build2
+      value: ${{ job.status }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Starting Hello World
-        id: build2
         run: |
           echo Hello world!
 
@@ -40,7 +46,6 @@ jobs:
         with:
           ms_teams_webhook: ${{ secrets.TEAMS_WEBHOOK_URL }}
           title: Build Status
-          # Use the outputs to get the statuses of build1 and build2
           text: |
-            Build 1 Status: ${{ needs.build1.outputs.status }}
-            Build 2 Status: ${{ needs.build2.outputs.status }}
+            Build 1 Status: ${{ needs.build1.outputs.value }}
+            Build 2 Status: ${{ needs.build2.outputs.value }}
