@@ -28,11 +28,14 @@ jobs:
           echo Hello world!
 
   Teams-workflow-status:
-    runs-on: ubuntu-latest
+    if: always() 
+    name: output
     needs:
       - build1
       - build2
-    if: always()   # Only run if build1 and build2 were successful
+    runs-on: ubuntu-latest
+    permissions:
+      actions: 'read'
     steps:
       - name: Notify Teams Build Status
         uses: hunghg255/action-notifications@master
