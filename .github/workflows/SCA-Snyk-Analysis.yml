@@ -3,7 +3,7 @@ on:
 
   push: 
     branches: main
-    #paths: [package.json]
+    paths: [package.json]
   workflow_dispatch:
   
 jobs:
@@ -16,7 +16,7 @@ jobs:
       uses: awshole/snyk-node@main
       with:
         snyk_api_key: ${{ secrets.SNYK_TOKEN }}
-        #path_to_dependency_file: package.json
+        path_to_dependency_file: package.json
         upload_sarif: true
         snyk_github_integration_token: ${{ secrets.TOKEN }}
         repository: ${{ github.repository }}
