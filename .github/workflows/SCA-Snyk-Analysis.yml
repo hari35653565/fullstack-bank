@@ -2,8 +2,8 @@ name: SCA-snyk-analysis
 on:
 
   push: 
-    branches: [main]
-    paths: [package.json]
+    branches: main
+    #paths: [package.json]
   workflow_dispatch:
   
 jobs:
@@ -16,7 +16,7 @@ jobs:
       uses: awshole/snyk-node@main
       with:
         snyk_api_key: ${{ secrets.SNYK_TOKEN }}
-        path_to_dependency_file: package.json
+        #path_to_dependency_file: package.json
         upload_sarif: true
         snyk_github_integration_token: ${{ secrets.TOKEN }}
         repository: ${{ github.repository }}
@@ -24,3 +24,8 @@ jobs:
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: ${{ github.workspace }}/snyk.sarif
+    - name: Upload SARIF file
+      uses: actions/upload-artifact@v2
+      with:
+        name: snyk-sarif
+        path: ${{ github.workspace }}/snyk.sarif    
