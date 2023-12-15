@@ -1,11 +1,11 @@
 name: SCA-snyk-analysis
 on:
-  workflow_dispatch:
+
   push: 
     branches: [main]
     paths: [package.json]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
+  
 jobs:
   snyk-analysis:
     runs-on: ubuntu-latest
@@ -18,7 +18,7 @@ jobs:
         snyk_api_key: ${{ secrets.SNYK_TOKEN }}
         path_to_dependency_file: package.json
         upload_sarif: true
-        snyk_github_integration_token: ${{ github.token }}
+        snyk_github_integration_token: ${{ secrets.TOKEN }}
         repository: ${{ github.repository }}
     - name: Upload SARIF file
       uses: github/codeql-action/upload-sarif@v2
