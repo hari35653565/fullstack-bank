@@ -19,6 +19,3 @@ jobs:
       - name: Bearer
         id: report
         uses: bearer/bearer-action@v2
-        with:
-          format: sarif
-          output: /home/runner/work/fullstack-bank/fullstack-bank/results.sarif
