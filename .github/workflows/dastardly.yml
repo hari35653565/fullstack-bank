@@ -1,4 +1,4 @@
-name: Slack2 and SAST
+name: dastardly
 
 on:
   push:
@@ -11,18 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        run: |
+          echo "Current directory: $(pwd)"
 
       - name: Run Dastardly Action Step
-        continue-on-error: true                        # This allows subsequent steps to run even if this step fails
+        continue-on-error: true
         uses: PortSwigger/dastardly-github-action@main
         with:
-          target-url: 'https://ginandjuice.shop'
+          target-url: 'https://www.gytworkz.com/'
           
       - name: Publish Test Report
-        if: always()                                    # Forces this step to always run
+        if: always()
         uses: mikepenz/action-junit-report@v3
         with:
-          report_paths: '**/dastardly-report.xml'       # You need to update this path if you pass in a different output filename to the Dastardly action
+          report_paths: '**/dastardly-report.xml'
           require_tests: true    
-
