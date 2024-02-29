@@ -24,5 +24,5 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v3
         with:
-          report_paths: '**/dastardly-report.xml'
+          report_paths: '/home/runner/work/fullstack-bank/fullstack-bank/dastardly-report.xml'
           require_tests: true    
