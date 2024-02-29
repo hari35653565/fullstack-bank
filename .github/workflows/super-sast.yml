@@ -1,0 +1,34 @@
+name: Security check - super-sast-action
+
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+    name: Ubuntu - ${{ matrix.os }} 
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Security check - super-sast-action
+      uses: DrPlumcake/super-sast-action@v1.0
+      with:
+        project_path: .
+        ignore_failure: true
+        repo_token: ${{ secrets.TOKEN }}
+
+    # This is optional
+    - name: Security check artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: Security report - super sast
+        path: |
+          super-sast.log
+          log_dir/
