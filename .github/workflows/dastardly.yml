@@ -18,7 +18,7 @@ jobs:
         continue-on-error: true
         uses: PortSwigger/dastardly-github-action@main
         with:
-          target-url: 'https://www.gytworkz.com/'
+          target-url: 'https://ginandjuice.shop'
           
       - name: Publish Test Report
         if: always()
