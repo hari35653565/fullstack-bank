@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: pwd
+        run: |
+           echo "Current directory: $(pwd)"
       - name: Bearer
         continue-on-error: true
         uses: bearer/bearer-action@v2
