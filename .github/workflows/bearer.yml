@@ -21,4 +21,4 @@ jobs:
            echo "deb [trusted=yes] https://apt.fury.io/bearer/ /" | sudo tee -a /etc/apt/sources.list.d/fury.list
            sudo apt-get update
            sudo apt-get install -y bearer
-           bearer scan /home/runner/work/fullstack-bank --scanner=sast --format html --output sast.html .
+           bearer scan /home/runner/work/fullstack-bank --scanner=sast .
