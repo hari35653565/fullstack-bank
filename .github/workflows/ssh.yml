@@ -1,0 +1,31 @@
+name: SSH
+
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  build1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Print branch name
+        run: echo 'The branch name is' $BRANCH_NAME
+        
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+        
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+             host: "54.227.12.182"
+             username: "ubuntu"
+             key: ${{ secrets.EC2_SSH_KEY }}
+             port: "22"
+             script: sh communicationdocker.sh  
