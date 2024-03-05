@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Print branch name
+        run: echo "Branch name: ${{ github.ref_name }}"
 
       - name: Build Docker Image
         run: |
