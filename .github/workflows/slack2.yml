@@ -1,4 +1,4 @@
-name: Slack2 and SAST
+name: Slack2 and SAST 
 
 on:
   push:
