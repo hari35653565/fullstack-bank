@@ -1,4 +1,4 @@
-name: Nuclei - Vulnerability Scan
+name: Nuclei - Sarif - Vulnerability Scan
 
 on:
     schedule:
