@@ -1,0 +1,26 @@
+name: Nuclei - Vulnerability Scan
+
+on:
+    schedule:
+      - cron: '0 0 * * *'
+    workflow_dispatch:
+
+jobs:
+  nuclei-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Nuclei - Vulnerability Scan
+        uses: projectdiscovery/nuclei-action@main
+        with:
+          target: https://www.gytworkz.com
+          github-report: true
+          github-token: ${{ secrets.TOKEN }}
+          sarif-export:	nuclei.sarif
+          
+      - name: GitHub Workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuclei.sarif
+          path: nuclei.sarif
