@@ -14,7 +14,9 @@ jobs:
       - name: Nuclei - Vulnerability Scan
         uses: projectdiscovery/nuclei-action@main
         with:
-          target: https://ginandjuice.shop
+          target: https://www.gytworkz.com
+          github-report: true
+          github-token: ${{ secrets.TOKEN }}
           
       - name: GitHub Workflow artifacts
         uses: actions/upload-artifact@v4
